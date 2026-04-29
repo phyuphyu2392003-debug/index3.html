@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anniversary Memory 🖤✨</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a; /* Dark background */
+            color: #fff;
+            font-family: 'Times New Roman', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ပူဖောင်း */
+        #balloon-area {
+            text-align: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .big-balloon {
+            width: 160px;
+            height: 200px;
+            background: #fff;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+            box-shadow: 0 0 40px rgba(255,255,255,0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        /* ဓာတ်ပုံပေါ်မည့်နေရာ */
+        #photo-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none; /* အစမှာ ဖျောက်ထားမယ် */
+            z-index: 50;
+        }
+
+        .flower-photo {
+            width: 320px;
+            height: 400px;
+            border: 10px solid #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Letter Card */
+        #letter-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 85%;
+            max-width: 450px;
+            background: #ffffff;
+            color: #000;
+            padding: 35px;
+            box-shadow: 0 0 50px rgba(255,255,255,0.2);
+            z-index: 100;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            line-height: 1.6;
+            border: 2px solid #000;
+        }
+
+        #letter-card.active { transform: translate(-50%, -50%) scale(1); }
+
+        h2 { text-align: center; margin-top: 0; text-transform: uppercase; letter-spacing: 2px; }
+
+        .btn-music {
+            position: fixed;
+            bottom: 30px;
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="balloon-area" onclick="startShow()">
+        <div class="big-balloon">🖤TAP 🩶</div>
+        <p>🩶Our Beautiful Timeline of Love🩶</p>
+    </div>
+
+    <div id="photo-container">
+        <img id="display-img" class="flower-photo" src="" alt="Memory">
+    </div>
+
+    <div id="letter-card">
+        <h2>🖤To My Dearest🖤</h2>
+        <div style="font-size: 15px;">
+            1. 🌹💗Every single day with you is a gift I never take for granted.<br>
+            2. 🌷You are my best friend, my soulmate, and my entire world🌷.<br>
+            3. Thank you for staying by my side through every high and low.<br>
+            4. 🩶I cherish the way you smile and how you make me feel safe.<br>
+            5. Our love story is my favorite,🎈🎁 and it’s only getting better.<br>
+            6. 🫶🏻💘I promise to love you more with every beat of my heart.<br>
+            7. Thank you for the endless memories we have built together.<br>
+            8. 🎈🎁You are the most beautiful part of my life's journey.<br>
+            9. Here is to many more years of laughter and deep love.<br>
+            10. Happy 1 Anniversary and 11 Monthsary, my love. Forever isn't long enough🫶🏻💘.
+        </div>
+    </div>
+
+    <button class="btn-music" onclick="playMusic()">🎵 Music On</button>
+
+    <script>
+        const photos = [
+            'photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg',
+            'photo6.jpg', 'photo7.jpg', 'photo8.jpg', 'photo9.jpg', 'photo10.jpg'
+        ];
+
+        function playMusic() {
+            document.getElementById('bg-music').play();
+        }
+
+        function startShow() {
+            document.getElementById('balloon-area').style.display = 'none';
+            const container = document.getElementById('photo-container');
+            const imgElement = document.getElementById('display-img');
+            const letter = document.getElementById('letter-card');
+            
+            container.style.display = 'block';
+
+            let i = 0;
+            const showNextPhoto = () => {
+                if (i < photos.length) {
+                    imgElement.src = photos[i];
+                    imgElement.style.opacity = 1;
+                    
+                    // ၂ စက္ကန့်ပြပြီးရင် ပုံကို ခဏဖျောက်ပြီး နောက်တစ်ပုံပြမယ်
+                    setTimeout(() => {
+                        if (i < photos.length - 1) {
+                            imgElement.style.opacity = 0;
+                        }
+                        i++;
+                        setTimeout(showNextPhoto, 500);
+                    }, 2000);
+                } else {
+                    // ပုံတွေကုန်သွားရင် Letter ပေါ်မယ်
+                    container.style.display = 'none';
+                    letter.classList.add('active');
+                }
+            };
+
+            showNextPhoto();
+        }
+    </script>
+</body>
+</html>
